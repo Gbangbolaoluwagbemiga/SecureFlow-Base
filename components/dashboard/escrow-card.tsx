@@ -52,6 +52,8 @@ export function EscrowCard({
         return "bg-green-100 text-green-800";
       case "disputed":
         return "bg-red-100 text-red-800";
+      case "resolved":
+        return "bg-purple-100 text-purple-800";
       case "terminated":
         return "bg-gray-100 text-gray-800";
       default:
@@ -62,7 +64,9 @@ export function EscrowCard({
   // Check if this escrow should be marked as terminated
   const isTerminated = escrow.milestones.some(
     (milestone) =>
-      milestone.status === "disputed" || milestone.status === "rejected",
+      milestone.status === "disputed" ||
+      milestone.status === "rejected" ||
+      milestone.status === "resolved"
   );
 
   const getMilestoneStatusColor = (status: string) => {
@@ -75,6 +79,10 @@ export function EscrowCard({
         return "bg-green-100 text-green-800";
       case "disputed":
         return "bg-red-100 text-red-800";
+      case "resolved":
+        return "bg-purple-100 text-purple-800";
+      case "rejected":
+        return "bg-orange-100 text-orange-800";
       default:
         return "bg-gray-100 text-gray-800";
     }
@@ -88,7 +96,7 @@ export function EscrowCard({
       : 0;
 
   const completedMilestones = escrow.milestones.filter(
-    (m) => m.status === "approved",
+    (m) => m.status === "approved"
   ).length;
   const totalMilestones = escrow.milestones.length;
 
@@ -124,7 +132,7 @@ export function EscrowCard({
             <div className="flex items-center gap-2">
               <Badge
                 className={getStatusColor(
-                  isTerminated ? "terminated" : escrow.status,
+                  isTerminated ? "terminated" : escrow.status
                 )}
               >
                 {isTerminated ? "terminated" : escrow.status}
@@ -179,7 +187,7 @@ export function EscrowCard({
                   {(() => {
                     const daysLeft = calculateDaysLeft(
                       escrow.createdAt,
-                      escrow.duration,
+                      escrow.duration
                     );
                     const message = getDaysLeftMessage(daysLeft);
                     return (
@@ -205,7 +213,7 @@ export function EscrowCard({
                         </p>
                         <p className="text-xs text-muted-foreground">
                           {(Number.parseFloat(milestone.amount) / 1e18).toFixed(
-                            2,
+                            2
                           )}{" "}
                           tokens
                         </p>
@@ -230,7 +238,7 @@ export function EscrowCard({
                           onSuccess={() => {
                             // Refresh the escrow data
                             window.dispatchEvent(
-                              new CustomEvent("escrowUpdated"),
+                              new CustomEvent("escrowUpdated")
                             );
                           }}
                         />

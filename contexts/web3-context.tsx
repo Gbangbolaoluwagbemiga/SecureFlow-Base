@@ -43,7 +43,16 @@ export function Web3Provider({ children }: { children: ReactNode }) {
       window.ethereum.on("chainChanged", handleChainChanged);
     }
 
+    // Re-check connection periodically to catch AppKit connections
+    // Only poll if not connected to avoid unnecessary checks
+    const interval = setInterval(() => {
+      if (!wallet.isConnected) {
+        checkConnection();
+      }
+    }, 2000); // Check every 2 seconds if not connected
+
     return () => {
+      clearInterval(interval);
       if (typeof window !== "undefined" && window.ethereum) {
         window.ethereum.removeListener(
           "accountsChanged",
@@ -530,6 +539,7 @@ export function useWeb3() {
   return context;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare global {
   interface Window {
     ethereum?: any;

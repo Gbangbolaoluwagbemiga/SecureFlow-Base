@@ -11,6 +11,7 @@ import { Navbar } from "@/components/navbar";
 import { Toaster } from "@/components/ui/toaster";
 import { Suspense } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
+import { AppKit } from "@/lib/web3/reown-config";
 
 export const metadata: Metadata = {
   title: "SecureFlow - Trustless Escrow on Base",
@@ -60,19 +61,21 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Suspense fallback={<div>Loading...</div>}>
-            <Web3Provider>
-              <DelegationProvider>
-                <SmartAccountProvider>
-                  <NotificationProvider>
-                    <Navbar />
-                    <main className="pt-16">{children}</main>
-                    <Toaster />
-                  </NotificationProvider>
-                </SmartAccountProvider>
-              </DelegationProvider>
-            </Web3Provider>
-          </Suspense>
+          <AppKit>
+            <Suspense fallback={<div>Loading...</div>}>
+              <Web3Provider>
+                <DelegationProvider>
+                  <SmartAccountProvider>
+                    <NotificationProvider>
+                      <Navbar />
+                      <main className="pt-16">{children}</main>
+                      <Toaster />
+                    </NotificationProvider>
+                  </SmartAccountProvider>
+                </DelegationProvider>
+              </Web3Provider>
+            </Suspense>
+          </AppKit>
         </ThemeProvider>
       </body>
     </html>
