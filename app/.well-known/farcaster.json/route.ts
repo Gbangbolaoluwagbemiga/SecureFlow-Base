@@ -40,12 +40,12 @@ export async function GET() {
       ],
       primaryCategory: "finance",
       tags: ["escrow", "freelance", "base", "web3", "payments"],
-      heroImageUrl: `${URL}/og-image.png`,
+      heroImageUrl: `${URL}/secureflow-logo.svg`,
       tagline: "Trustless payments, milestones",
       ogTitle: "SecureFlow - Trustless Escrow",
       ogDescription:
         "Decentralized freelance marketplace with transparent milestone payments powered by Base blockchain.",
-      ogImageUrl: `${URL}/og-image.png`,
+      ogImageUrl: `${URL}/secureflow-logo.svg`,
       noindex: false,
     },
   };
