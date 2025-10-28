@@ -21,7 +21,7 @@ export async function GET() {
     },
 
     baseBuilder: {
-      ownerAddress: "0x3Be7fbBDbC73Fc4731D60EF09c4BA1A94DC58E41", // Your Base Account address
+      ownerAddress: "0x3Be7fbBDbC73Fc4731D60EF09c4BA1A94DC58E41",
     },
     miniapp: {
       version: "1",
