@@ -47,7 +47,7 @@ export default function RootLayout({
           sizes="32x32"
           href="/placeholder-logo.png"
         />
-        <link rel="icon" type="image/svg+xml" href="/placeholder-logo.svg" />
+        <link rel="icon" type="image/svg+xml" href="/secureflow-favicon.svg" />
         <link
           rel="apple-touch-icon"
           sizes="180x180"
@@ -60,7 +60,7 @@ export default function RootLayout({
           name="fc:miniapp"
           content='{
           "version":"next",
-          "imageUrl":"https://secure-flow-base.vercel.app/secureflow-logo.svg",
+          "imageUrl":"https://secure-flow-base.vercel.app/placeholder-logo.png",
           "button":{
             "title":"Launch SecureFlow",
             "action":{
