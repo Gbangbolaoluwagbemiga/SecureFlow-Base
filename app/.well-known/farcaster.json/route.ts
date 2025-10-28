@@ -14,11 +14,12 @@ export async function GET() {
 
   const manifest = {
     accountAssociation: {
-      // Replace these with your generated credentials from Base Build
-      header: "YOUR_GENERATED_HEADER_HERE",
-      payload: "YOUR_GENERATED_PAYLOAD_HERE",
-      signature: "YOUR_GENERATED_SIGNATURE_HERE",
+      header: process.env.FARCASTER_ACCOUNT_ASSOCIATION_HEADER,
+
+      payload: process.env.FARCASTER_ACCOUNT_ASSOCIATION_PAYLOAD,
+      signature: process.env.FARCASTER_ACCOUNT_ASSOCIATION_SIGNATURE,
     },
+
     baseBuilder: {
       ownerAddress: "0x3Be7fbBDbC73Fc4731D60EF09c4BA1A94DC58E41", // Your Base Account address
     },
