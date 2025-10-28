@@ -53,9 +53,18 @@ export function Navbar() {
       }
     };
 
+    const handleEscapeKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && mobileMenuOpen) {
+        setMobileMenuOpen(false);
+      }
+    };
+
     document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscapeKey);
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [mobileMenuOpen]);
 
@@ -181,7 +190,11 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               className="md:hidden ml-1"
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setMobileMenuOpen(!mobileMenuOpen);
+              }}
             >
               {mobileMenuOpen ? (
                 <X className="h-5 w-5" />
@@ -299,8 +312,12 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-black/50 z-40 md:hidden"
-            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setMobileMenuOpen(false);
+            }}
           />
         )}
       </AnimatePresence>
