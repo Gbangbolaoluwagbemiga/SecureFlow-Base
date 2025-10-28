@@ -60,7 +60,7 @@ export default function RootLayout({
           name="fc:miniapp"
           content='{
           "version":"next",
-          "imageUrl":"https://secure-flow-base.vercel.app/placeholder-logo.png",
+          "imageUrl":"https://secure-flow-base.vercel.app/secureflow-logo.svg",
           "button":{
             "title":"Launch SecureFlow",
             "action":{
