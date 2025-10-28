@@ -193,7 +193,6 @@ export function Navbar() {
               size="icon"
               className="md:hidden ml-1 relative z-50"
               onClick={() => {
-                console.log("Button clicked! Current state:", mobileMenuOpen);
                 if (mobileMenuOpen) {
                   setMobileMenuOpen(false);
                 } else {
