@@ -97,7 +97,18 @@ createAppKit({
   projectId,
   features: {
     analytics: true,
+    email: false, // Disable email login if not needed
+    socials: [], // No social logins
+    onramp: false, // Disable on-ramp
   },
+  themeMode: 'dark',
+  themeVariables: {
+    '--w3m-accent': 'hsl(var(--primary))',
+  },
+  // Enable all wallet connectors
+  enableWalletConnect: true,
+  enableInjected: true,
+  enableCoinbase: true,
 });
 
 export function AppKit({ children }: { children: React.ReactNode }) {
