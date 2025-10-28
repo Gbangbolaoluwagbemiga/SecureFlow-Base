@@ -12,6 +12,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Suspense } from "react";
 import { ThemeProvider } from "@/components/theme-provider";
 import { AppKit } from "@/lib/web3/reown-config";
+import { FarcasterSDKProvider } from "@/components/farcaster-sdk-provider";
 
 export const metadata: Metadata = {
   title: "SecureFlow - Trustless Escrow on Base",
@@ -53,6 +54,23 @@ export default function RootLayout({
           href="/placeholder-logo.png"
         />
         <link rel="manifest" href="/manifest.json" />
+
+        {/* Farcaster Mini App Embed Metadata */}
+        <meta
+          name="fc:miniapp"
+          content='{
+          "version":"next",
+          "imageUrl":"https://secureflow-app.vercel.app/og-image.png",
+          "button":{
+            "title":"Launch SecureFlow",
+            "action":{
+              "type":"launch_miniapp",
+              "name":"SecureFlow",
+              "url":"https://secureflow-app.vercel.app"
+            }
+          }
+        }'
+        />
       </head>
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <ThemeProvider
@@ -61,21 +79,23 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppKit>
-            <Suspense fallback={<div>Loading...</div>}>
-              <Web3Provider>
-                <DelegationProvider>
-                  <SmartAccountProvider>
-                    <NotificationProvider>
-                      <Navbar />
-                      <main className="pt-16">{children}</main>
-                      <Toaster />
-                    </NotificationProvider>
-                  </SmartAccountProvider>
-                </DelegationProvider>
-              </Web3Provider>
-            </Suspense>
-          </AppKit>
+          <FarcasterSDKProvider>
+            <AppKit>
+              <Suspense fallback={<div>Loading...</div>}>
+                <Web3Provider>
+                  <DelegationProvider>
+                    <SmartAccountProvider>
+                      <NotificationProvider>
+                        <Navbar />
+                        <main className="pt-16">{children}</main>
+                        <Toaster />
+                      </NotificationProvider>
+                    </SmartAccountProvider>
+                  </DelegationProvider>
+                </Web3Provider>
+              </Suspense>
+            </AppKit>
+          </FarcasterSDKProvider>
         </ThemeProvider>
       </body>
     </html>
