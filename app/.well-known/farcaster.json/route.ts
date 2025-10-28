@@ -10,7 +10,7 @@ function withValidProperties(
 
 export async function GET() {
   const URL =
-    process.env.NEXT_PUBLIC_URL || "https://secureflow-app.vercel.app";
+    process.env.NEXT_PUBLIC_URL || "https://secure-flow-base.vercel.app";
 
   const manifest = {
     accountAssociation: {
