@@ -15,7 +15,6 @@ export async function GET() {
   const manifest = {
     accountAssociation: {
       header: process.env.FARCASTER_ACCOUNT_ASSOCIATION_HEADER,
-
       payload: process.env.FARCASTER_ACCOUNT_ASSOCIATION_PAYLOAD,
       signature: process.env.FARCASTER_ACCOUNT_ASSOCIATION_SIGNATURE,
     },
@@ -42,8 +41,8 @@ export async function GET() {
       primaryCategory: "finance",
       tags: ["escrow", "freelance", "base", "web3", "payments"],
       heroImageUrl: `${URL}/og-image.png`,
-      tagline: "Trustless payments, transparent milestones",
-      ogTitle: "SecureFlow - Trustless Escrow on Base",
+      tagline: "Trustless payments, milestones",
+      ogTitle: "SecureFlow - Trustless Escrow",
       ogDescription:
         "Decentralized freelance marketplace with transparent milestone payments powered by Base blockchain.",
       ogImageUrl: `${URL}/og-image.png`,
