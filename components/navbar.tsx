@@ -13,6 +13,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useFreelancerStatus } from "@/hooks/use-freelancer-status";
 import { useAdminStatus } from "@/hooks/use-admin-status";
 import { useJobCreatorStatus } from "@/hooks/use-job-creator-status";
+import { usePendingApprovals } from "@/hooks/use-pending-approvals";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -21,6 +22,7 @@ export function Navbar() {
   const { isFreelancer } = useFreelancerStatus();
   const { isAdmin } = useAdminStatus();
   const { isJobCreator } = useJobCreatorStatus();
+  const { hasPendingApprovals } = usePendingApprovals();
 
   const isActive = (path: string) => {
     if (path === "/") {
@@ -111,7 +113,7 @@ export function Navbar() {
               Dashboard
             </Link>
 
-            {isJobCreator && (
+            {isJobCreator && hasPendingApprovals && (
               <Link
                 href="/approvals"
                 className={`text-sm font-medium transition-colors ${
@@ -245,7 +247,7 @@ export function Navbar() {
                 >
                   Dashboard
                 </Link>
-                {isJobCreator && (
+                {isJobCreator && hasPendingApprovals && (
                   <Link
                     href="/approvals"
                     className={`text-sm font-medium transition-colors py-2 ${
