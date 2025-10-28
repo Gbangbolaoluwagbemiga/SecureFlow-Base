@@ -19,6 +19,7 @@ export function Navbar() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+
   const { isFreelancer } = useFreelancerStatus();
   const { isAdmin } = useAdminStatus();
   const { isJobCreator } = useJobCreatorStatus();
@@ -59,11 +60,12 @@ export function Navbar() {
       }
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    // Temporarily disabled to test button functionality
+    // document.addEventListener("mousedown", handleClickOutside);
     document.addEventListener("keydown", handleEscapeKey);
 
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      // document.removeEventListener("mousedown", handleClickOutside);
       document.removeEventListener("keydown", handleEscapeKey);
     };
   }, [mobileMenuOpen]);
@@ -178,10 +180,10 @@ export function Navbar() {
             <div className="hidden md:block">
               <SmartAccountStatus />
             </div>
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <NotificationCenter />
             </div>
-            <div className="flex-shrink-0">
+            <div className="shrink-0">
               <WalletButton />
             </div>
 
@@ -190,23 +192,13 @@ export function Navbar() {
               variant="ghost"
               size="icon"
               className="md:hidden ml-1 relative z-50"
-              onMouseDown={(e) => {
-                console.log(
-                  "Close button mousedown, current state:",
-                  mobileMenuOpen
-                );
-                e.preventDefault();
-                e.stopPropagation();
-                setMobileMenuOpen(false);
-              }}
-              onClick={(e) => {
-                console.log(
-                  "Close button clicked, current state:",
-                  mobileMenuOpen
-                );
-                e.preventDefault();
-                e.stopPropagation();
-                setMobileMenuOpen(false);
+              onClick={() => {
+                console.log("Button clicked! Current state:", mobileMenuOpen);
+                if (mobileMenuOpen) {
+                  setMobileMenuOpen(false);
+                } else {
+                  setMobileMenuOpen(true);
+                }
               }}
             >
               {mobileMenuOpen ? (
@@ -229,20 +221,6 @@ export function Navbar() {
               className="md:hidden border-t border-border/40 bg-background"
             >
               <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
-                {/* Close button for mobile menu */}
-                <div className="flex justify-end mb-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-8 w-8"
-                    onClick={() => {
-                      console.log("Mobile menu close button clicked");
-                      setMobileMenuOpen(false);
-                    }}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                </div>
                 <Link
                   href="/"
                   className={`text-sm font-medium transition-colors py-2 ${
