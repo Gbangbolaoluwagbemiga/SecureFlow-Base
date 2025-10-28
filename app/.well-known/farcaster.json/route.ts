@@ -26,9 +26,9 @@ export async function GET() {
       version: "1",
       name: "SecureFlow",
       homeUrl: URL,
-      iconUrl: `${URL}/secureflow-logo.svg`,
-      splashImageUrl: `${URL}/secureflow-logo.svg`,
-      splashBackgroundColor: "#000000",
+      iconUrl: `${URL}/secureflow-favicon.svg?v=2`,
+      splashImageUrl: `${URL}/secureflow-favicon.svg?v=2`,
+      splashBackgroundColor: "#0A0E27",
       webhookUrl: `${URL}/api/webhook`,
       subtitle: "Trustless Escrow on Base",
       description:
@@ -40,12 +40,12 @@ export async function GET() {
       ],
       primaryCategory: "finance",
       tags: ["escrow", "freelance", "base", "web3", "payments"],
-      heroImageUrl: `${URL}/secureflow-logo.svg`,
+      heroImageUrl: `${URL}/secureflow-favicon.svg?v=2`,
       tagline: "Trustless payments, milestones",
       ogTitle: "SecureFlow - Trustless Escrow",
       ogDescription:
         "Decentralized freelance marketplace with transparent milestone payments powered by Base blockchain.",
-      ogImageUrl: `${URL}/secureflow-logo.svg`,
+      ogImageUrl: `${URL}/secureflow-favicon.svg?v=2`,
       noindex: false,
     },
   };

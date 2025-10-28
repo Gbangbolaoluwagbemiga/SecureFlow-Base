@@ -20,15 +20,9 @@ export const metadata: Metadata = {
   generator: "SecureFlow",
   manifest: "/manifest.json",
   icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "32x32", type: "image/x-icon" },
-      { url: "/placeholder-logo.png", sizes: "32x32", type: "image/png" },
-      { url: "/placeholder-logo.svg", sizes: "any", type: "image/svg+xml" },
-    ],
-    apple: [
-      { url: "/placeholder-logo.png", sizes: "180x180", type: "image/png" },
-    ],
-    shortcut: "/favicon.ico",
+    icon: "/secureflow-favicon.svg?v=2",
+    apple: "/secureflow-favicon.svg?v=2",
+    shortcut: "/secureflow-favicon.svg?v=2",
   },
 };
 
@@ -40,19 +34,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" />
         <link
           rel="icon"
-          type="image/png"
-          sizes="32x32"
-          href="/placeholder-logo.png"
+          href="/secureflow-favicon.svg?v=2"
+          type="image/svg+xml"
         />
-        <link rel="icon" type="image/svg+xml" href="/secureflow-favicon.svg" />
-        <link
-          rel="apple-touch-icon"
-          sizes="180x180"
-          href="/placeholder-logo.png"
-        />
+        <link rel="apple-touch-icon" href="/secureflow-favicon.svg?v=2" />
         <link rel="manifest" href="/manifest.json" />
 
         {/* Farcaster Mini App Embed Metadata */}
@@ -60,7 +47,7 @@ export default function RootLayout({
           name="fc:miniapp"
           content='{
           "version":"next",
-          "imageUrl":"https://secure-flow-base.vercel.app/secureflow-logo.svg",
+          "imageUrl":"https://secure-flow-base.vercel.app/secureflow-favicon.svg?v=2",
           "button":{
             "title":"Launch SecureFlow",
             "action":{
