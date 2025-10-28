@@ -189,11 +189,24 @@ export function Navbar() {
               aria-label="Toggle menu"
               variant="ghost"
               size="icon"
-              className="md:hidden ml-1"
-              onClick={(e) => {
+              className="md:hidden ml-1 relative z-50"
+              onMouseDown={(e) => {
+                console.log(
+                  "Close button mousedown, current state:",
+                  mobileMenuOpen
+                );
                 e.preventDefault();
                 e.stopPropagation();
-                setMobileMenuOpen(!mobileMenuOpen);
+                setMobileMenuOpen(false);
+              }}
+              onClick={(e) => {
+                console.log(
+                  "Close button clicked, current state:",
+                  mobileMenuOpen
+                );
+                e.preventDefault();
+                e.stopPropagation();
+                setMobileMenuOpen(false);
               }}
             >
               {mobileMenuOpen ? (
@@ -216,6 +229,20 @@ export function Navbar() {
               className="md:hidden border-t border-border/40 bg-background"
             >
               <div className="container mx-auto px-4 py-4 flex flex-col gap-4">
+                {/* Close button for mobile menu */}
+                <div className="flex justify-end mb-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="h-8 w-8"
+                    onClick={() => {
+                      console.log("Mobile menu close button clicked");
+                      setMobileMenuOpen(false);
+                    }}
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                </div>
                 <Link
                   href="/"
                   className={`text-sm font-medium transition-colors py-2 ${
