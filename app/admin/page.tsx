@@ -354,6 +354,20 @@ export default function AdminPage() {
     );
   }
 
+  // Show loading state while checking admin status
+  if (adminLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center gradient-mesh">
+        <Card className="glass border-primary/20 p-12 text-center max-w-md">
+          <div className="inline-block h-12 w-12 animate-spin rounded-full border-4 border-solid border-primary border-r-transparent mb-4" />
+          <h2 className="text-2xl font-bold mb-2">Checking Access...</h2>
+          <p className="text-muted-foreground">Verifying admin permissions</p>
+        </Card>
+      </div>
+    );
+  }
+
+  // Only show access denied after loading is complete
   if (!isAdmin) {
     return (
       <div className="min-h-screen flex items-center justify-center gradient-mesh">

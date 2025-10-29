@@ -88,11 +88,6 @@ export default function DashboardPage() {
     ];
     const mappedStatus = statuses[status] || "pending";
 
-    // Special debugging for rejected status
-    if (status === 5) {
-      console.log("Milestone status 5 (Rejected) detected");
-    }
-
     return mappedStatus;
   };
 

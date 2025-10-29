@@ -29,17 +29,17 @@ interface SmartAccountContextType {
   executeTransaction: (
     to: string,
     data: string,
-    value?: string,
+    value?: string
   ) => Promise<string>;
   executeBatchTransaction: (
-    transactions: Array<{ to: string; data: string; value?: string }>,
+    transactions: Array<{ to: string; data: string; value?: string }>
   ) => Promise<string>;
   isSmartAccountReady: boolean;
   checkSmartAccountBalance: () => Promise<string>;
 }
 
 const SmartAccountContext = createContext<SmartAccountContextType | undefined>(
-  undefined,
+  undefined
 );
 
 export function SmartAccountProvider({ children }: { children: ReactNode }) {
@@ -79,7 +79,7 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
       const smartAccountAddress = ethers.getCreate2Address(
         "0x0000000000000000000000000000000000000000", // factory address (placeholder)
         ethers.keccak256(ethers.toUtf8Bytes(address)), // salt (bytes32)
-        ethers.ZeroHash, // init code hash (bytes32)
+        ethers.ZeroHash // init code hash (bytes32)
       );
 
       // Check if Smart Account is already deployed
@@ -96,7 +96,10 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
 
       toast({
         title: "Smart Account Initialized",
-        description: `Smart Account: ${smartAccountAddress.slice(0, 6)}...${smartAccountAddress.slice(-4)}`,
+        description: `Smart Account: ${smartAccountAddress.slice(
+          0,
+          6
+        )}...${smartAccountAddress.slice(-4)}`,
       });
     } catch (error: any) {
       console.error("Smart Account initialization failed:", error);
@@ -141,7 +144,7 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
   const executeTransaction = async (
     to: string,
     data: string,
-    value: string = "0",
+    value: string = "0"
   ) => {
     try {
       if (!smartAccount.safeAddress) {
@@ -165,7 +168,7 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
       console.log(
         "Paymaster contract balance:",
         ethers.formatEther(paymasterBalance),
-        "MON",
+        "MON"
       );
 
       if (paymasterBalance === BigInt(0)) {
@@ -216,68 +219,54 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
           const functionName = parsed.name;
           const args = parsed.args ? Array.from(parsed.args) : [];
 
-          console.log("Function name:", functionName);
-          console.log("Args:", args);
-
           // Ensure a valid delegation exists for this function
-          console.log("Getting active delegations...");
           let activeDelegations = getActiveDelegations();
-          console.log("Active delegations:", activeDelegations);
 
           let delegation = activeDelegations.find((d: any) =>
-            d.functions.includes(functionName),
+            d.functions.includes(functionName)
           );
 
           if (!delegation) {
-            console.log("No delegation found, creating one...");
             // Create a quick delegation to self for the required function (valid 30 days)
             const delegationId = await createDelegation(
               fromAddress,
               [functionName],
-              30 * 24 * 60 * 60,
+              30 * 24 * 60 * 60
             );
-            console.log("Delegation created with ID:", delegationId);
 
             // Wait a bit for state to update
             await new Promise((resolve) => setTimeout(resolve, 200));
 
-            console.log("Getting updated delegations...");
             activeDelegations = getActiveDelegations();
-            console.log("Updated active delegations:", activeDelegations);
             delegation = activeDelegations.find((d: any) =>
-              d.functions.includes(functionName),
+              d.functions.includes(functionName)
             );
-            console.log("Found delegation after creation:", delegation);
           }
 
           if (!delegation) {
             throw new Error(
-              "Delegation setup failed for function: " + functionName,
+              "Delegation setup failed for function: " + functionName
             );
           }
-
-          console.log("Found delegation:", delegation.id);
-          console.log("Executing delegated function...");
 
           // Add timeout to delegation execution
           const delegationPromise = executeDelegatedFunction(
             delegation.id,
             functionName,
-            args,
+            args
           );
 
           const timeoutPromise = new Promise((_, reject) =>
             setTimeout(
               () => reject(new Error("Delegation execution timeout")),
-              10000,
-            ),
+              10000
+            )
           );
 
           const delegationTxHash = await Promise.race([
             delegationPromise,
             timeoutPromise,
           ]);
-          console.log("Delegation executed, hash:", delegationTxHash);
 
           // For simulated delegation, create a realistic transaction response
           txResponse = {
@@ -291,7 +280,6 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
               }),
           };
         } else {
-          console.log("Non-SecureFlow contract, using direct send");
           // Fallback to direct send when we cannot decode; this may prompt MetaMask
           const directTx = await signer.sendTransaction({
             to,
@@ -305,11 +293,10 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
       } catch (delegationErr) {
         console.error(
           "Delegation flow failed, falling back to regular wallet transaction:",
-          delegationErr,
+          delegationErr
         );
 
         // Fallback to regular wallet transaction when delegation fails
-        console.log("Falling back to regular wallet transaction...");
         const fallbackTx = await signer.sendTransaction({
           to,
           data,
@@ -319,30 +306,30 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
         });
 
         txResponse = fallbackTx;
-        console.log("Fallback transaction sent:", fallbackTx.hash);
       }
-
-      console.log("Transaction sent:", txResponse.hash);
 
       // Wait for transaction confirmation
       const receipt = await txResponse.wait();
-      console.log("Transaction confirmed:", receipt);
 
       // Check if this was a fallback transaction
       const isFallback =
         !txResponse.hash.startsWith("0x") || txResponse.hash.length < 10;
 
       if (isFallback) {
-        console.log("Using regular wallet transaction (delegation failed)");
         toast({
           title: "💳 Regular Transaction Executed",
-          description: `Transaction confirmed: ${txResponse.hash.slice(0, 10)}... (Gas paid by wallet)`,
+          description: `Transaction confirmed: ${txResponse.hash.slice(
+            0,
+            10
+          )}... (Gas paid by wallet)`,
         });
       } else {
-        console.log("Using gasless delegation");
         toast({
           title: "🚀 Gasless Transaction Executed!",
-          description: `Transaction confirmed: ${txResponse.hash.slice(0, 10)}... (Gas sponsored)`,
+          description: `Transaction confirmed: ${txResponse.hash.slice(
+            0,
+            10
+          )}... (Gas sponsored)`,
         });
       }
 
@@ -360,14 +347,12 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
   };
 
   const executeBatchTransaction = async (
-    transactions: Array<{ to: string; data: string; value?: string }>,
+    transactions: Array<{ to: string; data: string; value?: string }>
   ) => {
     try {
       if (!smartAccount.safeAddress) {
         throw new Error("Smart Account not initialized");
       }
-
-      console.log("Executing REAL gasless batch transactions:", transactions);
 
       const { ethers } = await import("ethers");
       const provider = new ethers.BrowserProvider(window.ethereum!);
@@ -380,7 +365,7 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
       console.log(
         "Paymaster contract balance:",
         ethers.formatEther(paymasterBalance),
-        "MON",
+        "MON"
       );
 
       if (paymasterBalance === BigInt(0)) {
@@ -393,8 +378,6 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
 
       for (const tx of transactions) {
         try {
-          console.log(`Executing batch transaction to ${tx.to}`);
-
           // Estimate gas for this transaction (set from to ensure correct msg.sender)
           const fromAddress = await signer.getAddress();
           const gasEstimate = await provider.estimateGas({
@@ -418,11 +401,8 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
 
           // Transaction sent successfully
 
-          console.log("Real batch transaction sent:", txResponse.hash);
-
           // Wait for confirmation
           const receipt = await txResponse.wait();
-          console.log("Real batch transaction confirmed:", receipt);
 
           txHashes.push(txResponse.hash);
         } catch (error) {
@@ -438,18 +418,16 @@ export function SmartAccountProvider({ children }: { children: ReactNode }) {
           [
             "function sponsorGas(address user, uint256 amount, string memory reason) external",
           ],
-          signer,
+          signer
         );
 
         const sponsorTx = await paymasterContract.sponsorGas(
           await signer.getAddress(),
           totalGasCost,
-          "SecureFlow gasless batch transaction",
+          "SecureFlow gasless batch transaction"
         );
 
-        console.log("Paymaster batch gas sponsorship:", sponsorTx.hash);
         await sponsorTx.wait();
-        console.log("Batch gas fees sponsored by Paymaster");
       } catch (sponsorError) {
         console.warn("Paymaster batch sponsorship failed:", sponsorError);
         // Transactions still succeeded, just sponsorship failed
@@ -514,7 +492,7 @@ export function useSmartAccount() {
   const context = useContext(SmartAccountContext);
   if (context === undefined) {
     throw new Error(
-      "useSmartAccount must be used within a SmartAccountProvider",
+      "useSmartAccount must be used within a SmartAccountProvider"
     );
   }
   return context;

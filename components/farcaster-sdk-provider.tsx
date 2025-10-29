@@ -15,3 +15,5 @@ export function FarcasterSDKProvider({
 
   return <>{children}</>;
 }
+
+
