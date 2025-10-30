@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { WalletButton } from "@/components/wallet-button";
-import { SmartAccountStatus } from "@/components/smart-account-status";
 import { NotificationCenter } from "@/components/notification-center";
 import { Shield, Menu, X } from "lucide-react";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -176,9 +175,6 @@ export function Navbar() {
             {/* Hide heavy widgets on mobile to keep hamburger visible */}
             <div className="hidden md:block">
               <ThemeToggle />
-            </div>
-            <div className="hidden md:block">
-              <SmartAccountStatus />
             </div>
             <div className="shrink-0">
               <NotificationCenter />
